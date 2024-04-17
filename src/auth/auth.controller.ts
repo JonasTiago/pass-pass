@@ -3,7 +3,7 @@ import { AuthService } from './auth.service';
 import { AuthCreateDto } from './dtos/auth.create.dto';
 import { AuthLoginDto } from './dtos/auth.login.dto';
 import { AuthGuard } from './guards/auth.guard';
-import { User } from 'src/decorators/users.decorator';
+import { UserParam } from 'src/decorators/users.decorator';
 
 @Controller('auth')
 export class AuthController {
@@ -21,7 +21,7 @@ export class AuthController {
 
     @UseGuards(AuthGuard)
     @Get("me")
-    async me(@User() user){
+    async me(@UserParam() user){
         return {
             "me": user
         }   

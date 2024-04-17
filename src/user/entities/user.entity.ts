@@ -1,5 +1,6 @@
-import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, UpdateDateColumn } from 'typeorm';
+import { Column, CreateDateColumn, Entity, ObjectId, ObjectIdColumn, OneToMany, UpdateDateColumn } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Credential } from 'src/credential/entities/credential.entity';
 
 @Entity()
 export class User {
@@ -27,6 +28,9 @@ export class User {
 
   @Column()
   role: string;
+
+  @OneToMany(() => Credential, credential => credential.user)
+  credential: Credential[];
 
   @CreateDateColumn()
   @Exclude()

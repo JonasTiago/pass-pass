@@ -11,6 +11,7 @@ import { EncryptionModule } from 'src/encryption/encryption.module';
     secret:"tokenHash"
   }), UserModule, EncryptionModule],
   providers: [AuthService, AuthLoginDto],
-  controllers: [AuthController]
+  controllers: [AuthController],
+  exports: [AuthService]
 })
 export class AuthModule {}

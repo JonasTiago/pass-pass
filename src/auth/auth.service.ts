@@ -23,7 +23,7 @@ export class AuthService {
         const userExist = await this.userRepository.findByEmail(user.email);
        
         if(!userExist){
-            throw new NotFoundException("");
+            throw new NotFoundException("Email or password incorrect!");
         }
 
         const valid = this.bcryptService.compare( userExist.password, user.password)
