@@ -4,11 +4,12 @@ import { AuthController } from './auth.controller';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthLoginDto } from './dtos/auth.login.dto';
 import { UserModule } from 'src/user/user.module';
+import { EncryptionModule } from 'src/encryption/encryption.module';
 
 @Module({
   imports:[JwtModule.register({
     secret:"tokenHash"
-  }), UserModule],
+  }), UserModule, EncryptionModule],
   providers: [AuthService, AuthLoginDto],
   controllers: [AuthController]
 })

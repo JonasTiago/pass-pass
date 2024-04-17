@@ -24,6 +24,6 @@ export class AuthController {
     async me(@User() user){
         return {
             "me": user
-        }
+        }   
     }
 }
