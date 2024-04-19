@@ -29,14 +29,19 @@ export class CredentialRepository implements ICredentialRepository {
         return this.repository.findOneBy(id);
     }
 
-    async findAll(skip?: number, take?: number): Promise<Credential[]> {
-        return this.repository.find();
-    }
-
-    async findByUser(userID:ObjectId){
+    async findAll(userID:ObjectId): Promise<Credential[]> {
         return this.repository.find({
             where:{
                 user:userID
+            }
+        })
+    }
+
+    async findByUser(userID:ObjectId, title: string){
+        return this.repository.find({
+            where:{
+                user:userID,
+                title,
             }
         })
     }

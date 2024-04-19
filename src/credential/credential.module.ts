@@ -10,6 +10,6 @@ import { UserModule } from 'src/user/user.module';
 @Module({
   imports: [TypeOrmModule.forFeature([Credential]), AuthModule, UserModule],
   controllers: [CredentialController],
-  providers: [CredentialService,CredentialRepository],
+  providers: [CredentialService, CredentialRepository],
 })
 export class CredentialModule {}

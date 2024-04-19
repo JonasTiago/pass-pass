@@ -16,9 +16,10 @@ export class CredentialController {
     return this.credentialService.create(createCredentialDto, user.id);
   }
 
+  @UseGuards(AuthGuard)
   @Get()
-  findAll() {
-    return this.credentialService.findAll();
+  findAll(@UserParam() user:User) {
+    return this.credentialService.findAll(user.id);
   }
 
   @Get(':id')
