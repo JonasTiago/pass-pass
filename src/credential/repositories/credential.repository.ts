@@ -25,8 +25,13 @@ export class CredentialRepository implements ICredentialRepository {
         this.repository.delete(id)
     }
 
-    async findById(id: string): Promise<Credential> {
-        return this.repository.findOneBy(id);
+    async findById(id: string, userID:ObjectId): Promise<any> {
+        return this.repository.findOne({
+            where:{
+                user:userID,
+                _id: new ObjectId(id),
+            }
+        })
     }
 
     async findAll(userID:ObjectId): Promise<Credential[]> {

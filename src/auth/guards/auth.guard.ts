@@ -15,13 +15,15 @@ export class AuthGuard implements CanActivate {
         const { authorization } = request.headers;
 
         try{
-            const data = this.authService.checkToken((authorization ?? "").split(" ")[1]);
+            const token:string = (authorization ?? "").split(" ")[1]
+            if(!token?.length) throw new UnauthorizedException("User unauthorized!")
+
+            const data = this.authService.checkToken(token);
+
             const user = await this.userRepository.findByEmail(data.email);
             request.user = user;
         }catch(err){
-            console.log(err);
-            throw new UnauthorizedException();
-            return false
+            throw new UnauthorizedException("User unauthorized.");
         }
 
         return true

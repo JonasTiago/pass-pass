@@ -1,6 +1,5 @@
 import { ConflictException, Injectable } from '@nestjs/common';
 import { CreateCredentialDto } from './dto/create-credential.dto';
-import { UpdateCredentialDto } from './dto/update-credential.dto';
 import { CredentialRepository } from './repositories/credential.repository';
 import { Credential } from './entities/credential.entity';
 import { ObjectId } from 'typeorm';
@@ -18,9 +17,6 @@ export class CredentialService {
 
   async create(createCredentialDto:CreateCredentialDto, id:ObjectId) {
     const titleUsed = await this.repository.findByUser(id, createCredentialDto.title)
-    console.log(titleUsed)
-
-    //const titleUsed = userCredentials.filter(credential => createCredentialDto.title === credential.title).length
     if(titleUsed.length) throw new ConflictException("Titulo já cadastrado.")
 
     const passwordHASH = this.cryptr.encrypt(createCredentialDto.password)
@@ -39,15 +35,11 @@ export class CredentialService {
     return allCredential;
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} credential`;
+  async findOne(id: string, useId:ObjectId) {
+    return this.repository.findById(id, useId);
   }
 
-  update(id: number, updateCredentialDto: UpdateCredentialDto) {
-    return `This action updates a #${id} credential`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} credential`;
+  async remove(id: string) {
+    return this.repository.delete(id)
   }
 }

@@ -56,7 +56,6 @@ export class AuthService {
             })
             return data;
         }catch(err){
-            console.log(err);
             throw new BadRequestException(err)
         }
     }

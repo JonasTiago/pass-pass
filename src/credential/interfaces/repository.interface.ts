@@ -6,6 +6,6 @@ export interface ICredentialRepository {
     create(data: CreateCredentialDto, id:ObjectId): Promise<Credential>;
     save(data: Credential): Promise<Credential>;
     delete(id: string): Promise<void>;
-    findById(id: string): Promise<Credential>;
+    findById(id: string, userID:ObjectId): Promise<Credential>;
     findAll(userID:ObjectId): Promise<Credential[]>;
 }
