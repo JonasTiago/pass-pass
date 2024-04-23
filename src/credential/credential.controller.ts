@@ -6,30 +6,27 @@ import { User } from 'src/user/entities/user.entity';
 import { AuthGuard } from 'src/auth/guards/auth.guard';
 
 @Controller('credential')
+@UseGuards(AuthGuard)
 export class CredentialController {
   constructor(private readonly credentialService: CredentialService) {}
 
-  @UseGuards(AuthGuard)
   @Post()
   create(@Body() createCredentialDto: CreateCredentialDto, @UserParam() user:User) {
     return this.credentialService.create(createCredentialDto, user.id);
   }
 
-  @UseGuards(AuthGuard)
   @Get()
   findAll(@UserParam() user:User) {
     return this.credentialService.findAll(user.id);
   }
 
-  @UseGuards(AuthGuard)
   @Get(':id')
   findOne(@Param('id') id: string, @UserParam() user:User) {
     return this.credentialService.findOne(id, user.id);
   }
 
-  @UseGuards(AuthGuard)
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.credentialService.remove(id);
+  remove(@Param('id') id: string, @UserParam() user:User) {
+    return this.credentialService.remove(id, user.id);
   }
 }

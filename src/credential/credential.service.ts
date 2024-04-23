@@ -1,9 +1,10 @@
-import { ConflictException, Injectable } from '@nestjs/common';
+import { ConflictException, NotFoundException, Injectable } from '@nestjs/common';
 import { CreateCredentialDto } from './dto/create-credential.dto';
 import { CredentialRepository } from './repositories/credential.repository';
 import { Credential } from './entities/credential.entity';
 import { ObjectId } from 'typeorm';
 import Cryptr from 'cryptr';
+import { User } from 'src/user/entities/user.entity';
 
 @Injectable()
 export class CredentialService {
@@ -13,7 +14,7 @@ export class CredentialService {
     private readonly repository: CredentialRepository,
     ){
       this.cryptr = new Cryptr('chave-secreta-aqui')
-    }
+  }
 
   async create(createCredentialDto:CreateCredentialDto, id:ObjectId) {
     const titleUsed = await this.repository.findByUser(id, createCredentialDto.title)
@@ -35,11 +36,14 @@ export class CredentialService {
     return allCredential;
   }
 
-  async findOne(id: string, useId:ObjectId) {
-    return this.repository.findById(id, useId);
+  async findOne(id: string, userId:ObjectId):Promise<Credential> {
+    return this.repository.findById(id, userId);
   }
 
-  async remove(id: string) {
-    return this.repository.delete(id)
+  async remove(id: string, userId:ObjectId) {
+    const credentialVerify = await this.repository.findById(id, userId);
+    if(!credentialVerify) throw new NotFoundException();
+
+    return this.repository.delete(credentialVerify.id)
   }
 }
